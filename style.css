@@ -1,0 +1,225 @@
+body {
+  font-family: 'Merienda', cursive;
+  background: #f5f5f5;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  width: 100%;
+  height: 25vh;
+  max-height: 300px;
+  min-height: 200px;
+  background: linear-gradient(to right, #ff3c80, #ff7f7f);
+  border-bottom-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bubble Animation Keyframes */
+/* Updated Bubble Animation Keyframes */
+@keyframes floatBubble {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0.7;
+  }
+  25% {
+    transform: translateY(-8px) rotate(90deg) translateX(3px);
+  }
+  50% {
+    transform: translateY(-15px) rotate(180deg) translateX(0);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateY(-8px) rotate(270deg) translateX(-3px);
+  }
+}
+
+@keyframes wobble {
+  0%, 100% {
+    border-radius: 50%;
+  }
+  25% {
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
+  }
+  50% {
+    border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%;
+  }
+  75% {
+    border-radius: 45% 55% 55% 45% / 55% 45% 55% 45%;
+  }
+}
+
+.bubbles span {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  animation: 
+    floatBubble 4s ease-in-out infinite,
+    wobble 3s ease-in-out infinite;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Updated Individual Bubble Styles with Faster Animation */
+.bubbles span:nth-child(1) { 
+  width: 12vw; height: 12vw; left: 10%; top: 20%;
+  animation-duration: 3.8s, 2.8s;
+  animation-delay: 0s, 0s;
+}
+.bubbles span:nth-child(2) { 
+  width: 8vw; height: 8vw; left: 30%; top: 10%;
+  animation-duration: 4.2s, 3.1s;
+  animation-delay: 0.5s, 0.3s;
+}
+.bubbles span:nth-child(3) { 
+  width: 6vw; height: 6vw; left: 50%; top: 25%;
+  animation-duration: 3.5s, 2.9s;
+  animation-delay: 0.8s, 0.5s;
+}
+.bubbles span:nth-child(4) { 
+  width: 10vw; height: 10vw; left: 70%; top: 15%;
+  animation-duration: 4.5s, 3.3s;
+  animation-delay: 1.2s, 0.7s;
+}
+.bubbles span:nth-child(5) { 
+  width: 4vw; height: 4vw; left: 85%; top: 35%;
+  animation-duration: 3.2s, 2.5s;
+  animation-delay: 0.3s, 0.2s;
+}
+.bubbles span:nth-child(6) { 
+  width: 9vw; height: 9vw; left: 15%; top: 60%;
+  animation-duration: 4s, 3s;
+  animation-delay: 0.7s, 0.4s;
+}
+.bubbles span:nth-child(7) { 
+  width: 5vw; height: 5vw; left: 45%; top: 70%;
+  animation-duration: 3.7s, 2.7s;
+  animation-delay: 1s, 0.6s;
+}
+.bubbles span:nth-child(8) { 
+  width: 7vw; height: 7vw; left: 80%; top: 65%;
+  animation-duration: 4.3s, 3.2s;
+  animation-delay: 1.5s, 0.9s;
+}
+
+.card {
+  background: #fff;
+  width: 80%;
+  max-width: 750px;
+  min-width: 300px;
+  margin: -8vh auto 0;
+  padding: 12vh 5% 5%;
+  border-radius: 60px;
+  box-shadow: 10px 10px 35px rgba(0,0,0,0.3);
+  text-align: center;
+  position: relative;
+  min-height: 266px;
+}
+
+.profile-pic {
+  width: 20vw;
+  height: 20vw;
+  max-width: 200px;
+  max-height: 200px;
+  min-width: 120px;
+  min-height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  position: absolute;
+  top: -10vw;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card h1 {
+  font-size: clamp(24px, 4vw, 42px);
+  margin: 7px 0 10px;
+  color: #6E6E6E;
+  letter-spacing: 0px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.location {
+  color: #6E6E6E;
+  font-size: clamp(14px, 2vw, 18px);
+  margin: 16px 0;
+}
+
+.title {
+  font-size: clamp(18px, 3vw, 24px);
+  color: #6E6E6E;
+  margin: 15px 0 43px;
+  letter-spacing: 0%;
+  margin-top: 12vh;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stats {
+  display: flex;
+  justify-content: center; 
+  gap: 5vw; 
+  text-align: center;
+  color:#6E6E6E;
+  margin-top: -17px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 80px;
+}
+
+.stats h3 {
+  margin: 0;
+  font-size: clamp(18px, 3vw, 24px);
+}
+
+.stats p {
+  margin: 0;
+  font-size: clamp(14px, 2vw, 18px);
+  font-family: serif;
+}
+
+.dot {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+}
+
+.top-left {
+  background: #FF4286;
+  left: 20px;
+}
+
+.top-right {
+  background: #FD7F78;
+  right: 20px;
+}
+
+@media (max-width: 600px) {
+  .header {
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+  }
+  
+  .card {
+    border-radius: 40px;
+    padding-top: 15vh;
+  }
+  
+  .stats {
+    gap: 20px;
+  }
+}
