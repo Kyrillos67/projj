@@ -1,0 +1,152 @@
+<!-- Save as register.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Page</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .register-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    .register-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .register-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    .register-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .register-box button {
+      width: 100%;
+      padding: 10px;
+      background-color: #00c6ff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .register-box button:hover {
+      background-color: #007acc;
+    }
+    .message {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+  <div class="register-box">
+    <h2>Register</h2>
+    <form id="registerForm">
+      <label>Email</label>
+      <input type="email" id="email" required />
+
+      <label>Password</label>
+      <input type="password" id="password" required />
+
+      <label>Username</label>
+      <input type="text" id="username" required />
+
+      <label>Upload Photo</label>
+      <input type="file" id="photo" accept="image/*" required />
+
+      <label>City</label>
+      <input type="text" id="city" required />
+
+      <label>Job Title</label>
+      <input type="text" id="job" required />
+
+      <button type="submit">Register</button>
+      <p class="message">Already registered? <a href="login.html">Sign In</a></p>
+    </form>
+  </div>
+
+  <script>
+    const supabaseUrl = 'https://vzfqdtkqtjpriqmzfsox.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6ZnFkdGtxdGpwcmlxbXpmc294Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMjM5NDgsImV4cCI6MjA2MzU5OTk0OH0.Jt4SpR-aDs5Xj6qmGAblfwitZoZ50D25Wvc_wvtQJys'; // Replace with real key
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const username = document.getElementById('username').value;
+      const city = document.getElementById('city').value;
+      const job = document.getElementById('job').value;
+      const photoFile = document.getElementById('photo').files[0];
+
+      try {
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password
+        });
+        if (signUpError) throw signUpError;
+
+        const user = signUpData.user;
+        if (!user) throw new Error("User creation failed");
+
+        const ext = photoFile.name.split('.').pop();
+        const filename = `${user.id}-${Date.now()}.${ext}`;
+        const path = `avatars/${filename}`;
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(path, photoFile);
+        if (uploadError) throw uploadError;
+
+        const { data: { publicUrl } } = supabase
+          .storage.from('avatars')
+          .getPublicUrl(path);
+
+        const { error: insertError } = await supabase
+          .from('users')
+          .insert([{
+            id: user.id,
+            name: username,
+            email: email,
+            avatar_url: publicUrl,
+            city: city,
+            job: job
+          }]);
+
+        if (insertError) throw insertError;
+
+        alert('Registration successful! Please login.');
+        window.location.href = 'login.html';
+
+      } catch (err) {
+        console.error(err);
+        alert("Registration failed: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!-- Save as login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="login.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+  <div class="login-page">
+    <div class="form">
+      <form id="loginForm">
+        <input type="email" placeholder="email" id="loginEmail" required />
+        <input type="password" placeholder="password" id="loginPassword" required />
+        <button type="submit">Login</button>
+        <p class="message">Not registered? <a href="register.html">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const supabaseUrl = 'https://vzfqdtkqtjpriqmzfsox.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6ZnFkdGtxdGpwcmlxbXpmc294Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgwMjM5NDgsImV4cCI6MjA2MzU5OTk0OH0.Jt4SpR-aDs5Xj6qmGAblfwitZoZ50D25Wvc_wvtQJys';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        window.location.href = 'index.html';
+      } catch (err) {
+        console.error(err);
+        alert("Login failed: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
